@@ -1,0 +1,178 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+public class CharacterMovement2D : CharacterProperty2D
+{
+    public float defaultForward = 1.0f;
+    float dropHeight = 0.0f;
+    float dropDist = -1.0f;
+    bool isDown = true;
+    Coroutine coJump = null;
+    public LayerMask crashMask;
+    protected void AirCheck()
+    {
+        Vector2 orgPos = transform.position + Vector3.up * 0.5f;
+        Vector2 dir = Vector2.down;
+        Debug.DrawLine(orgPos, orgPos + dir * 1.0f, Color.red);
+
+        RaycastHit2D hit = Physics2D.Raycast(orgPos, dir, 1.0f, crashMask);
+        if (hit.collider != null && dropDist <= 0.0f)
+        {
+            if (isDown)
+            {
+                if (coJump != null) StopCoroutine(coJump);
+                transform.position = hit.point;
+            }
+
+            myAnim.SetBool("isAir", false);
+
+
+        }
+        else
+        {
+            myAnim.SetBool("isAir", true);
+            float delta = 9.8f * Time.deltaTime;
+            transform.position += Vector3.down * delta;
+
+            if (dropDist > 0.0f)
+            {
+                float dist =dropHeight-transform.position.y;
+                if (dist > dropDist)
+                {
+                    dropDist = -1.0f;
+                }
+            }
+        }
+    }
+
+    protected void Jump(float totalTime,float maxHeight)
+    {
+        if (coJump != null) StopCoroutine(coJump);
+        coJump = StartCoroutine(Jumping(totalTime, maxHeight));
+    }
+    IEnumerator Jumping(float totalTime, float maxHeight) //삼각함수를 이용한 점프
+    {
+        isDown = false;
+        myAnim.SetTrigger("Jump");
+        float t = 0.0f;//현제 시간
+        float orgHeight = transform.position.y; //현제 위치값
+        while (t <= totalTime)
+        {
+
+            if (t > totalTime * 0.5f) isDown = true;
+            t += Time.deltaTime;
+            // T:totalTime=y:PI -> t/tot=y/Pi ->= Pi*t/tot
+            float h = Mathf.Sin((t / totalTime) * Mathf.PI) * maxHeight;
+
+            Vector3 pos = new Vector3(transform.position.x, orgHeight + h, transform.position.z);
+
+            if (isDown)
+            {
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, Vector3.Distance(transform.position, pos), crashMask);
+
+                if (hit.collider != null)
+                {
+                    transform.position = hit.point;
+                    yield break;
+                }
+            }
+            transform.position = pos;
+            yield return null;
+        }
+        transform.position = new Vector3(transform.position.x, orgHeight, transform.position.z);
+    }
+    protected void Drop()
+    {
+        Jump(0.5f, 0.5f);
+        dropHeight = transform.position.y;
+
+        dropDist = 1.5f;
+    }
+
+    protected void MoveByDirection(Vector2 dir, UnityAction done)
+    {
+        StartCoroutine(MovingByDirection(dir,done));
+    }
+    IEnumerator MovingByDirection(Vector2 dir, UnityAction done)
+    {
+        bool cliff = false;
+        myAnim.SetBool("isMoving", true);
+        AirCheck();
+        while (!cliff)
+        {
+            if (!myAnim.GetBool("isAir"))
+            {
+                Vector3 pos = transform.position + (Vector3)dir * MoveSpeed * Time.deltaTime;
+                cliff = checkCliff(pos + Vector3.up * 0.5f);
+                if (cliff)
+                {
+                    break;
+                }
+                transform.position = pos;
+            }
+            yield return null;
+        }
+        myAnim.SetBool("isMoving", false);
+        done?.Invoke();
+    }
+
+    bool checkCliff(Vector3 pos)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.down, 1.0f, crashMask);
+        if (hit.collider == null)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    protected void Turn()
+    {
+        myRenderer.flipX = !myRenderer.flipX;
+    }
+   
+    protected Vector3 Forward()
+    {
+        return myRenderer.flipX ? transform.right*defaultForward : -transform.right*defaultForward;
+    }
+
+    protected void Attack(Transform target)
+    {
+        StartCoroutine(Attacking(target));
+    }
+    IEnumerator Attacking(Transform target)
+    {
+        float playTime = 0.0f;
+        while(target != null)
+        {
+            playTime += Time.deltaTime;
+            Vector3 dir = target.position - transform.position;
+            if (dir.magnitude <= AttackRange)
+            {
+                if (playTime >= AttackDelay)
+                {
+                    myAnim.SetTrigger("Attack");
+                    playTime = 0.0f;
+                }
+            }
+            else
+            {
+                dir.y = 0.0f;
+                float dist = dir.magnitude -AttackRange;
+                if (dist < 0.0f)dist = 0.0f;
+          
+                dir.Normalize();
+                float delta = MoveSpeed * Time.deltaTime;
+                if (delta > dist)
+                {
+                    delta = dist;
+                }
+                myRenderer.flipX = dir.x > 0.0f ? true : false;
+                transform.Translate(dir * delta);
+            }
+            yield return null;
+        }
+    }
+}

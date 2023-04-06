@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\RPG\RPGPlayer.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_LightIntensityFade.cs" />
     <Compile Include="Assets\Scripts\RPG\CharacterProperty.cs" />
+    <Compile Include="Assets\Scripts\2D\CharacterMovement2D.cs" />
     <Compile Include="Assets\Scripts\RPG\Monster.cs" />
     <Compile Include="Assets\Scripts\RPG\ClickObject.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_AutoRotate.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Assets\Hero Knight - Pixel Art\Demo\HeroKnight.cs" />
     <Compile Include="Assets\Scripts\RPG\CharacterMovement.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_AutoDestructShuriken.cs" />
+    <Compile Include="Assets\Scripts\2D\Monster2D.cs" />
     <Compile Include="Assets\Hero Knight - Pixel Art\ColorSwap\ColorSwap_HeroKnight.cs" />
     <Compile Include="Assets\Scripts\DefenseEarth\Earth.cs" />
     <Compile Include="Assets\Scripts\RPG\Navigation\AIPLayer.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Assets\Scripts\MoveByKeyboard.cs" />
     <Compile Include="Assets\AttackState.cs" />
     <Compile Include="Assets\Scripts\DefenseEarth\Meteo.cs" />
+    <Compile Include="Assets\Scripts\2D\AiPerception2D.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\JMO Assets\Cartoon FX (legacy)\Shaders\CFX3 Multiply Color.shader" />
@@ -741,6 +744,9 @@
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Tilemap.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
@@ -806,9 +812,6 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.State">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Tilemap.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
