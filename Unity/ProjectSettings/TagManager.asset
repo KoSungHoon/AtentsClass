@@ -42,3 +42,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Item2D
+    uniqueID: 1369777857
+    locked: 0
+  - name: Machin2D
+    uniqueID: 4178439605
+    locked: 0
