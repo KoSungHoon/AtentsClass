@@ -37,7 +37,7 @@ public class MousePicking : MonoBehaviour
                 }
             }
         }
-        else if (Input.GetMouseButtonDown(1))
+        else if(Input.GetMouseButtonDown(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, 1000.0f, pickMask))

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ClickObject : MonoBehaviour
-{ 
+{
     // Start is called before the first frame update
     void Start()
     {
@@ -15,8 +15,9 @@ public class ClickObject : MonoBehaviour
     {
         
     }
+
     public void OnMove(Vector3 pos)
     {
-        transform.position = pos;       
+        transform.position = pos;
     }
 }

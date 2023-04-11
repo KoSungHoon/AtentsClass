@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 039f34e4f145c694fb56d8d790336b5b
+guid: 63df1cde5c08d60409d555ff10b1b789
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -62,11 +62,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: JumpStart
+      name: Jump start
       takeName: mixamo.com
       internalID: 1077083467106422088
       firstFrame: 0
-      lastFrame: 10
+      lastFrame: 9
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -94,7 +94,7 @@ ModelImporter:
       name: Jumping
       takeName: mixamo.com
       internalID: -6373283989457081123
-      firstFrame: 11
+      firstFrame: 10
       lastFrame: 11
       wrapMode: 0
       orientationOffsetY: 0
@@ -102,7 +102,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -120,10 +120,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: JumpENd
+      name: Jump end
       takeName: mixamo.com
       internalID: 7125170359834322690
-      firstFrame: 12
+      firstFrame: 11
       lastFrame: 26
       wrapMode: 0
       orientationOffsetY: 0

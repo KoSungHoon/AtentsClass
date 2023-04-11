@@ -8,12 +8,12 @@ public class CharacterMovement : CharacterProperty
     Coroutine coMove = null;
     protected void MoveToPos(Vector3 pos, UnityAction done = null)
     {
-        if (coMove != null) 
-        { 
-            StopCoroutine(coMove); 
-            coMove = null; 
+        if (coMove != null)
+        {
+            StopCoroutine(coMove);
+            coMove = null;
         }
-        coMove=StartCoroutine(MovingToPos(pos, done));
+        coMove = StartCoroutine(MovingToPos(pos, done));
     }
 
     protected void FollowTarget(Transform target)

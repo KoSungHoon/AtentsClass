@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class DodgePlayer : CharacterProperty2D
 {
+    bool isActive = true;
+    public void SetActive(bool act)
+    {
+        isActive = act;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -13,8 +18,11 @@ public class DodgePlayer : CharacterProperty2D
     // Update is called once per frame
     void Update()
     {
-        float x = Input.GetAxisRaw("Horizontal");
-        myAnim.SetFloat("Direction", x);
-        transform.Translate(transform.right * x * Time.deltaTime*MoveSpeed);
+        if (isActive)
+        {
+            float x = Input.GetAxisRaw("Horizontal");
+            myAnim.SetFloat("Direction", x);
+            transform.Translate(transform.right * x * MoveSpeed * Time.deltaTime, Space.World);
+        }
     }
 }

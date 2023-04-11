@@ -15,9 +15,8 @@ public class CharacterMovement2D : CharacterProperty2D
     {
         Vector2 orgPos = transform.position + Vector3.up * 0.5f;
         Vector2 dir = Vector2.down;
-        Debug.DrawLine(orgPos, orgPos + dir * 1.0f, Color.red);
-
         RaycastHit2D hit = Physics2D.Raycast(orgPos, dir, 1.0f, crashMask);
+        Debug.DrawLine(orgPos, orgPos + dir * 1.0f, Color.red);
         if (hit.collider != null && dropDist <= 0.0f)
         {
             if (isDown)
@@ -25,10 +24,7 @@ public class CharacterMovement2D : CharacterProperty2D
                 if (coJump != null) StopCoroutine(coJump);
                 transform.position = hit.point;
             }
-
             myAnim.SetBool("isAir", false);
-
-
         }
         else
         {
@@ -38,8 +34,8 @@ public class CharacterMovement2D : CharacterProperty2D
 
             if (dropDist > 0.0f)
             {
-                float dist =dropHeight-transform.position.y;
-                if (dist > dropDist)
+                float dist = dropHeight - transform.position.y;
+                if(dist > dropDist)
                 {
                     dropDist = -1.0f;
                 }
@@ -47,64 +43,65 @@ public class CharacterMovement2D : CharacterProperty2D
         }
     }
 
-    protected void Jump(float totalTime,float maxHeight)
+    protected void Jump(float totalTime, float maxHeight)
     {
         if (coJump != null) StopCoroutine(coJump);
         coJump = StartCoroutine(Jumping(totalTime, maxHeight));
     }
-    IEnumerator Jumping(float totalTime, float maxHeight) //삼각함수를 이용한 점프
+
+    IEnumerator Jumping(float totalTime, float maxHeight)
     {
         isDown = false;
         myAnim.SetTrigger("Jump");
-        float t = 0.0f;//현제 시간
-        float orgHeight = transform.position.y; //현제 위치값
+        float t = 0.0f;
+        float orgHeight = transform.position.y;
         while (t <= totalTime)
         {
-
-            if (t > totalTime * 0.5f) isDown = true;
+            if (t >= totalTime * 0.5f) isDown = true;
             t += Time.deltaTime;
-            // T:totalTime=y:PI -> t/tot=y/Pi ->= Pi*t/tot
             float h = Mathf.Sin((t / totalTime) * Mathf.PI) * maxHeight;
 
             Vector3 pos = new Vector3(transform.position.x, orgHeight + h, transform.position.z);
-
             if (isDown)
             {
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, Vector3.Distance(transform.position, pos), crashMask);
-
+                RaycastHit2D hit =
+                    Physics2D.Raycast(transform.position, Vector2.down, Vector3.Distance(transform.position, pos), crashMask);
                 if (hit.collider != null)
                 {
                     transform.position = hit.point;
                     yield break;
                 }
             }
+
             transform.position = pos;
             yield return null;
         }
         transform.position = new Vector3(transform.position.x, orgHeight, transform.position.z);
     }
+
     protected void Drop()
     {
         Jump(0.5f, 0.5f);
         dropHeight = transform.position.y;
-
         dropDist = 1.5f;
+    }    
+
+    protected void MoveByDirection(Vector2 dir, UnityAction done = null)
+    {
+        StartCoroutine(MovingByDirection(dir, done));
     }
 
-    protected void MoveByDirection(Vector2 dir, UnityAction done)
-    {
-        StartCoroutine(MovingByDirection(dir,done));
-    }
     IEnumerator MovingByDirection(Vector2 dir, UnityAction done)
     {
         bool cliff = false;
         myAnim.SetBool("isMoving", true);
         AirCheck();
-        while (!cliff)
+        while(!cliff)
         {
             if (!myAnim.GetBool("isAir"))
             {
                 Vector3 pos = transform.position + (Vector3)dir * MoveSpeed * Time.deltaTime;
+
                 cliff = checkCliff(pos + Vector3.up * 0.5f);
                 if (cliff)
                 {
@@ -121,7 +118,7 @@ public class CharacterMovement2D : CharacterProperty2D
     bool checkCliff(Vector3 pos)
     {
         RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.down, 1.0f, crashMask);
-        if (hit.collider == null)
+        if(hit.collider == null)
         {
             return true;
         }
@@ -132,16 +129,17 @@ public class CharacterMovement2D : CharacterProperty2D
     {
         myRenderer.flipX = !myRenderer.flipX;
     }
-   
+
     protected Vector3 Forward()
     {
-        return myRenderer.flipX ? transform.right*defaultForward : -transform.right*defaultForward;
+        return myRenderer.flipX ? transform.right * defaultForward : -transform.right * defaultForward;        
     }
 
     protected void Attack(Transform target)
     {
         StartCoroutine(Attacking(target));
     }
+
     IEnumerator Attacking(Transform target)
     {
         float playTime = 0.0f;
@@ -149,9 +147,9 @@ public class CharacterMovement2D : CharacterProperty2D
         {
             playTime += Time.deltaTime;
             Vector3 dir = target.position - transform.position;
-            if (dir.magnitude <= AttackRange)
+            if(dir.magnitude <= AttackRange)
             {
-                if (playTime >= AttackDelay)
+                if(playTime >= AttackDelay)
                 {
                     myAnim.SetTrigger("Attack");
                     playTime = 0.0f;
@@ -160,12 +158,11 @@ public class CharacterMovement2D : CharacterProperty2D
             else
             {
                 dir.y = 0.0f;
-                float dist = dir.magnitude -AttackRange;
-                if (dist < 0.0f)dist = 0.0f;
-          
+                float dist = dir.magnitude - AttackRange;
+                if (dist < 0.0f) dist = 0.0f;
                 dir.Normalize();
                 float delta = MoveSpeed * Time.deltaTime;
-                if (delta > dist)
+                if(delta > dist)
                 {
                     delta = dist;
                 }

@@ -23,6 +23,7 @@ public class AnimEvent : MonoBehaviour
     {
         AttackFunc?.Invoke();
     }
+
     public void OnDead()
     {
         DeadFunc?.Invoke();

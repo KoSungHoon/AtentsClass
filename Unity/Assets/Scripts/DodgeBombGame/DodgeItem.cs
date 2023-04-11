@@ -6,11 +6,11 @@ public class DodgeItem : CharacterProperty2D
 {
     public enum Type
     {
-       Bomb,Score,None
+        Bomb, Score, None
     }
     public Type myType = Type.None;
     public LayerMask crashMask;
-    public float dropSpeed = 3.0f;
+    public float DropSpeed = 3.0f;
     public Sprite[] imgList;
     // Start is called before the first frame update
     void Start()
@@ -18,29 +18,36 @@ public class DodgeItem : CharacterProperty2D
         
     }
 
-    public void SetType(Type Type)
+    public void SetType(Type type)
     {
-        myType = Type;
+        myType = type;
         myRenderer.sprite = imgList[(int)myType];
-        //switch (myType)
-        //{
-        //    case Type.Bomb:
-        //        break;
-        //    case Type.Score:
-        //        break;
-        //}
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector2.down * Time.deltaTime*dropSpeed);
+        transform.Translate(Vector3.down * DropSpeed * Time.deltaTime);
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(((1<<collision.gameObject.layer)&crashMask) != 0) //레이어 확인 
+    {        
+        if(((1 << collision.gameObject.layer) & crashMask) != 0)
         {
-            Destroy(gameObject); 
+            Destroy(gameObject);
+
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                switch (myType)
+                {
+                    case Type.Bomb:
+                        DodgeBomb.Inst.Life--;
+                        break;
+                    case Type.Score:
+                        DodgeBomb.Inst.Score += 100;
+                        break;
+                }
+            }
         }
-    }//리지드바디가 있는 애들끼리 접촉
+    }
 }

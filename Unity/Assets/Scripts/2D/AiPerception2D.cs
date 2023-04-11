@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class AiPerception2D : MonoBehaviour
+public class AIPerception2D : MonoBehaviour
 {
     public LayerMask enemyMask;
     public UnityEvent<Transform> findEnemy;
@@ -18,20 +18,21 @@ public class AiPerception2D : MonoBehaviour
     {
         
     }
-    private void FixedUpdate()
-    {
 
+    private void FixedUpdate()
+    {       
     }
+
     IEnumerator Searching()
     {
         Collider2D col = null;
-        while (!col)
+        while(!col)
         {
-            col = Physics2D.OverlapCircle(transform.position, 3, enemyMask);
+            col = Physics2D.OverlapCircle(transform.position, 3.0f, enemyMask);
             if (col != null)
             {
                 findEnemy?.Invoke(col.transform);
-            }//설정된 적 발견
+            }
             yield return new WaitForFixedUpdate();
         }
     }

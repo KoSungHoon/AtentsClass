@@ -31,7 +31,7 @@ public class RPGPlayer : CharacterMovement, IBattle
     
     public void OnMove(Vector3 pos)
     {
-        if(IsLive) MoveToPos(pos);  
+        if(IsLive) MoveToPos(pos);
     }
 
     public void OnDamage(float dmg)

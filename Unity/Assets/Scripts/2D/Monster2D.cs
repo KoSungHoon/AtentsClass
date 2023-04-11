@@ -2,21 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster2D : CharacterMovement2D ,IBattle
+public class Monster2D : CharacterMovement2D, IBattle
 {
-
-    public enum State//유한 상태 기계
+    public enum State
     {
-        Create,Normal,Battle
+        Create, Normal, Battle
     }
+
     public State myState = State.Create;
+
     public Transform myTarget = null;
-    public void OnDamage(float dmg) {
+
+    public void OnDamage(float dmg)
+    {
         myAnim.SetTrigger("Damage");
     }
     public bool IsLive
     {
-        get {
+        get
+        {
             return true;
         }
     }
@@ -24,14 +28,12 @@ public class Monster2D : CharacterMovement2D ,IBattle
     {
         if (myState == s) return;
         myState = s;
-        switch (myState)
+        switch(myState)
         {
             case State.Create:
                 break;
             case State.Normal:
-                MoveByDirection(Forward(),()=> {
-                    TurnMove();
-                });
+                MoveByDirection(Forward(), ()=> TurnMove() );
                 break;
             case State.Battle:
                 StopAllCoroutines();
@@ -39,11 +41,13 @@ public class Monster2D : CharacterMovement2D ,IBattle
                 break;
         }
     }
+
     void TurnMove()
     {
         Turn();
-        MoveByDirection(Forward(),TurnMove);
+        MoveByDirection(Forward(), TurnMove);
     }
+
     void StateProcess()
     {
         switch (myState)
@@ -56,20 +60,22 @@ public class Monster2D : CharacterMovement2D ,IBattle
                 break;
         }
     }
+
     public void FindEnemy(Transform target)
     {
         myTarget = target;
         ChangeState(State.Battle);
     }
+
     public void OnAttack()
     {
         myTarget.GetComponent<IBattle>()?.OnDamage(AttackPoint);
     }
+
     // Start is called before the first frame update
     void Start()
     {
         ChangeState(State.Normal);
-        
     }
 
     // Update is called once per frame

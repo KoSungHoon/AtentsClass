@@ -9,11 +9,10 @@ public class CharacterProperty2D : CharacterProperty
     {
         get
         {
-            if (_renderer == null)
+            if(_renderer == null)
             {
-
                 _renderer = GetComponent<SpriteRenderer>();
-                if (_renderer == null)
+                if(_renderer == null)
                 {
                     _renderer = GetComponentInChildren<SpriteRenderer>();
                 }
@@ -21,6 +20,7 @@ public class CharacterProperty2D : CharacterProperty
             return _renderer;
         }
     }
+
     Rigidbody2D _rigid2D = null;
     protected Rigidbody2D myRigid2D
     {
@@ -28,14 +28,13 @@ public class CharacterProperty2D : CharacterProperty
         {
             if (_rigid2D == null)
             {
-                _rigid2D = GetComponent<Rigidbody2D>(); //나한테 있다면 
+                _rigid2D = GetComponent<Rigidbody2D>();
                 if (_rigid2D == null)
                 {
-                    _rigid2D = GetComponentInChildren<Rigidbody2D>();//나한텐 없고 자식 한테 있다면
+                    _rigid2D = GetComponentInChildren<Rigidbody2D>();
                 }
             }
             return _rigid2D;
-
         }
     }
 }

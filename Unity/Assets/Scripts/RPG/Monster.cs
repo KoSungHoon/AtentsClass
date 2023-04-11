@@ -40,7 +40,6 @@ public class Monster : CharacterMovement, IPerception, IBattle
                 DeathAlarm?.Invoke();
                 StopAllCoroutines();
                 myAnim.SetTrigger("Dead");
-                StartCoroutine(Disappearing());
                 break;
             default:
                 Debug.Log("처리 되지 않는 상태 입니다.");
@@ -86,12 +85,7 @@ public class Monster : CharacterMovement, IPerception, IBattle
     public void Find(Transform target)
     {
         myTarget = target;
-        myTarget.GetComponent<CharacterProperty>().DeathAlarm += ()=> {
-            if (IsLive)
-            {
-                ChangeState(State.Normal);
-            }
-            };
+        myTarget.GetComponent<CharacterProperty>().DeathAlarm += () => { if (IsLive) ChangeState(State.Normal); };
         ChangeState(State.Battle);
     }
 
@@ -118,15 +112,17 @@ public class Monster : CharacterMovement, IPerception, IBattle
             myAnim.SetTrigger("Damage");
         }
     }
+
     public void OnDisappear()
     {
         StartCoroutine(Disappearing());
     }
+
     IEnumerator Disappearing()
     {
         yield return new WaitForSeconds(3.0f);
         float dist = 0.0f;
-        while (dist<1.0f)
+        while(dist < 1.0f)
         {
             dist += Time.deltaTime;
             transform.Translate(Vector3.down * Time.deltaTime);
