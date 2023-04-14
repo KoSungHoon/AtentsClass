@@ -14,6 +14,7 @@ public class CharacterProperty : MonoBehaviour
     public float MaxHp = 100.0f;
     float _curHp = -100.0f;
     public float AttackPoint = 35.0f;
+
     public UnityEvent<float> updateHp;
     protected float curHp
     {
@@ -22,13 +23,11 @@ public class CharacterProperty : MonoBehaviour
             if (_curHp < 0.0f) _curHp = MaxHp;
             return _curHp;
         }
-        set {
-
+        set
+        {
             _curHp = Mathf.Clamp(value, 0.0f, MaxHp);
-            updateHp?.Invoke(Mathf.Approximately(MaxHp,0.0f)?0.0f:_curHp / MaxHp);
-                
-                }
-
+            updateHp?.Invoke(Mathf.Approximately(MaxHp, 0.0f)? 0.0f : _curHp / MaxHp);
+        }
     }
 
 

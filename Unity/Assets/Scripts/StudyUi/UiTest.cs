@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UiTest : MonoBehaviour
+public class UITest : MonoBehaviour
 {
-   public void MoveBox(float v)
+    public void MoveBox(float v)
     {
         transform.position = orgPos + Vector3.right * v;
     }

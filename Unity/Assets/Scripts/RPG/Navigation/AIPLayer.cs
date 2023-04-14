@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AIPlayer : AIMovement,IBattle
+public class AIPlayer : AIMovement, IBattle
 {
     public void OnDamage(float dmg)
     {
-        curHp -= dmg;   
+        curHp -= dmg;
     }
     public bool IsLive
     {
@@ -16,13 +16,15 @@ public class AIPlayer : AIMovement,IBattle
     // Start is called before the first frame update
     void Start()
     {
-        
+        MinimapIcon icon =
+            (Instantiate(Resources.Load("MinimapIcon"), SceneData.Inst.miniMap) as GameObject).GetComponent<MinimapIcon>();
+        icon.Initialize(transform, Color.green);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F1))
+        if(Input.GetKeyDown(KeyCode.F1))
         {
             OnDamage(10.0f);
         }

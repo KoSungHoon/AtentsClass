@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-public class PlayerStatUi : MonoBehaviour
-{
-    
+
+public class PlayerStatUI : MonoBehaviour
+{    
     public Slider myHpBar;
     // Start is called before the first frame update
     void Start()
@@ -18,7 +18,8 @@ public class PlayerStatUi : MonoBehaviour
     {
         
     }
-    public void UpdateHp(float v)
+
+    public void UpdateHP(float v)
     {
         myHpBar.value = v;
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Monster : CharacterMovement, IPerception, IBattle
 {
@@ -15,6 +16,8 @@ public class Monster : CharacterMovement, IPerception, IBattle
     Vector3 orgPos;
 
     public Transform myTarget = null;
+
+    UnityAction deadAction = null;
 
     public bool IsLive
     {
@@ -67,11 +70,17 @@ public class Monster : CharacterMovement, IPerception, IBattle
         orgPos = transform.position;
         ChangeState(State.Normal);
 
-        HpBarUi HpUi = (Instantiate(Resources.Load("HpBar"),SceneData.Inst.HpBars) as GameObject).GetComponent<HpBarUi>();
-        //Canvas canvas = FindObjectOfType<Canvas>();//캔버스가 하나라면
-        //GameObject obj = GameObject.Find("Canvas"); // 실수를 할수 있고 전체를 검사해서 비효율적임
-        HpUi.myRoot = myHeadPoint;
-        updateHp.AddListener(HpUi.upDateHp);
+        HpBarUI hpUi = (Instantiate(Resources.Load("HpBar"), SceneData.Inst.hpBars) as GameObject).GetComponent<HpBarUI>();
+        //Canvas canvas = FindObjectOfType<Canvas>();
+        //GameObject obj = GameObject.Find("Canvas");
+        hpUi.myRoot = myHeadPoint;
+        updateHp.AddListener(hpUi.updateHp);
+        deadAction += () => Destroy(hpUi.gameObject);
+
+        MinimapIcon icon =
+            (Instantiate(Resources.Load("MinimapIcon"), SceneData.Inst.miniMap) as GameObject).GetComponent<MinimapIcon>();
+        icon.Initialize(transform, Color.red);
+        deadAction += () => Destroy(icon.gameObject);
     }
 
     // Update is called once per frame
@@ -135,6 +144,7 @@ public class Monster : CharacterMovement, IPerception, IBattle
             transform.Translate(Vector3.down * Time.deltaTime);
             yield return null;
         }
+        deadAction?.Invoke();
         Destroy(gameObject);
         TotalCount--;
     }
