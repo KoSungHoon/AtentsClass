@@ -1,49 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-[RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    private CharacterController controller;
-    private Vector3 playerVelocity;
-    private bool groundedPlayer;
-    private float playerSpeed = 2.0f;
-    private float gravityValue = -9.81f;
+    public float Speed = 1.0f;
+    public float RotSpeed = 360.0f;
 
-    private PlayerControls playerControls;
 
     private void Start()
     {
-        controller = gameObject.GetComponent<CharacterController>();
-        playerControls= new PlayerControls();
+        
+      
     }
-    private void OnEnable()
-    {
-        playerControls?.Enable();
-    }
-    private void OnDisable()
-    {
-        playerControls?.Disable();
-    }
+   
 
     void Update()
     {
-        groundedPlayer = controller.isGrounded;
-        if (groundedPlayer && playerVelocity.y < 0)
+        if (Input.GetKey(KeyCode.W))
         {
-            playerVelocity.y = 0f; 
+            transform.Translate(Vector3.forward * Speed * Time.deltaTime);
         }
-
-        Vector3 move = new Vector3(playerControls.Player.MoveMent.ReadValue<Vector2>().x, 0, playerControls.Player.MoveMent.ReadValue<Vector2>().y); ;
-        controller.Move(move * Time.deltaTime * playerSpeed);
-
-        if (move != Vector3.zero)
+        if (Input.GetKey(KeyCode.S))
         {
-            gameObject.transform.forward = move;
+            transform.Translate(Vector3.back * Speed * Time.deltaTime);
         }
-
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Rotate(Vector3.down * RotSpeed * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.Rotate(Vector3.up * RotSpeed * Time.deltaTime);
+        }
     }
 }
