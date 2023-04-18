@@ -16,4 +16,4 @@ MonoBehaviour:
   DisPlayName: Test Item 02
   Description: "\uD14C\uC2A4\uD2B8 \uC544\uC774\uD15C 2\t\t"
   Icon: {fileID: 0}
-  MaxStackSize: 5
+  MaxStackSize: 99
