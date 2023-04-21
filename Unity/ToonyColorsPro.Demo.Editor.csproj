@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{5A00BCD0-06F0-1CEC-BA2D-8F42D0D099A6}</ProjectGuid>
+    <ProjectGuid>{D80B3EF4-9399-2045-0D51-63998204AE5F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>ToonyColorsPro.Demo.Editor</AssemblyName>
@@ -738,7 +738,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="KinoBloom.Runtime.csproj">
-      <Project>{9851F5B8-9E02-A57E-02BE-792A6D157250}</Project>
+      <Project>{B5DBA5D3-BE07-C0F4-DBBE-F8848D70D25D}</Project>
       <Name>KinoBloom.Runtime</Name>
     </ProjectReference>
   </ItemGroup>
