@@ -69,18 +69,21 @@ public class Monster : CharacterMovement, IPerception, IBattle
         TotalCount++;
         orgPos = transform.position;
         ChangeState(State.Normal);
+        if (SceneData.Inst != null)
+        {
+            HpBarUI hpUi = (Instantiate(Resources.Load("HpBar"), SceneData.Inst.hpBars) as GameObject).GetComponent<HpBarUI>();
+            //Canvas canvas = FindObjectOfType<Canvas>();
+            //GameObject obj = GameObject.Find("Canvas");
+            hpUi.myRoot = myHeadPoint;
+            updateHp.AddListener(hpUi.updateHp);
+            deadAction += () => Destroy(hpUi.gameObject);
 
-        HpBarUI hpUi = (Instantiate(Resources.Load("HpBar"), SceneData.Inst.hpBars) as GameObject).GetComponent<HpBarUI>();
-        //Canvas canvas = FindObjectOfType<Canvas>();
-        //GameObject obj = GameObject.Find("Canvas");
-        hpUi.myRoot = myHeadPoint;
-        updateHp.AddListener(hpUi.updateHp);
-        deadAction += () => Destroy(hpUi.gameObject);
 
-        MinimapIcon icon =
-            (Instantiate(Resources.Load("MinimapIcon"), SceneData.Inst.miniMap) as GameObject).GetComponent<MinimapIcon>();
-        icon.Initialize(transform, Color.red);
-        deadAction += () => Destroy(icon.gameObject);
+            MinimapIcon icon =
+                (Instantiate(Resources.Load("MinimapIcon"), SceneData.Inst.miniMap) as GameObject).GetComponent<MinimapIcon>();
+            icon.Initialize(transform, Color.red);
+            deadAction += () => Destroy(icon.gameObject);
+        }
     }
 
     // Update is called once per frame

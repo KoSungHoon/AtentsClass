@@ -7,17 +7,8 @@ public class AnimEvent : MonoBehaviour
 {
     public UnityEvent AttackFunc;
     public UnityEvent DeadFunc;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public UnityEvent ComboCheckStartFunc;
+    public UnityEvent ComboCheckEndFunc;
 
     public void OnAttack()
     {
@@ -28,4 +19,15 @@ public class AnimEvent : MonoBehaviour
     {
         DeadFunc?.Invoke();
     }
+
+    public void ComboCheckStart()
+    {
+        ComboCheckStartFunc?.Invoke();
+    }
+
+    public void ComboCheckEnd()
+    {
+        ComboCheckEndFunc?.Invoke();
+    }
 }
+

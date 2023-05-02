@@ -7,14 +7,15 @@ public class PopUpWindow : MonoBehaviour
     public TMPro.TMP_Text myTitle;
     public TMPro.TMP_Text myContent;
 
-    public void Initialize(string title,string Content)
+    public void Initialize(string title, string content)
     {
         myTitle.text = title;
-        myContent.text = Content;
-    }
-   public void OnClose()
+        myContent.text = content;
+    }    
+
+    public void OnClose()
     {
-        PopUpManager.Inst.closePopUp(this);
+        PopUpManager.Inst.ClosePopup(this);
         Destroy(gameObject);
     }
 }

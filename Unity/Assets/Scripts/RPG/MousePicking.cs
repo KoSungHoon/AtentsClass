@@ -20,7 +20,6 @@ public class MousePicking : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-            //ui에 마우스가 올라가져서 클릭이 일어났을때
         if(!EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

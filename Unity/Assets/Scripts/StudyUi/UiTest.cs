@@ -19,9 +19,9 @@ public class UITest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F1))
+        if(Input.GetKeyDown(KeyCode.F1))
         {
-            PopUpManager.Inst.CreatePopUp("테스트", "내용없음");
+            PopUpManager.Inst.CreatePopup("테스트", "내용 없음");
         }
     }
 }
